@@ -2,7 +2,7 @@
 import os, time, math, csv, requests
 from datetime import datetime
 from pytrends.request import TrendReq
-from pytrends.exceptions import TooManyRequestsError import ResponseError
+from pytrends.exceptions import TooManyRequestsError, ResponseError
 from bs4 import BeautifulSoup
 from google.oauth2.service_account import Credentials
 import gspread
