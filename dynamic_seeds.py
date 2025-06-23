@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python3
 import os, time, math, csv, requests
 from datetime import datetime
@@ -19,7 +20,7 @@ pytrends   = TrendReq(hl="en-US", tz=330)
 
 def discover_trends():
     try:
-        top_daily = list(pytrends.trending_searches(pn="IN").head(20))
+        top_daily = list(pytrends.trending_searches(pn="india").head(20))
     except ResponseError:
         top_daily = []
     try:
