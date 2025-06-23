@@ -2,7 +2,7 @@
 import os, time, math, csv, requests
 from datetime import datetime
 from pytrends.request import TrendReq
-from pytrends.exceptions import TooManyRequestsError
+from pytrends.exceptions import TooManyRequestsError import ResponseError
 from bs4 import BeautifulSoup
 from google.oauth2.service_account import Credentials
 import gspread
@@ -18,10 +18,16 @@ OUTPUT_CSV = "dynamic_seed_metrics.csv"
 pytrends   = TrendReq(hl="en-US", tz=330)
 
 def discover_trends():
-    d = list(pytrends.trending_searches(pn="india").head(20))
-    c = pytrends.top_charts(2024, hl="en-IN", tz=330, geo=GEO, cid="shopping")
-    c = [i["title"] for i in c[:20]]
-    return list(dict.fromkeys(d+c))
+    try:
+        top_daily = list(pytrends.trending_searches(pn="IN").head(20))
+    except ResponseError:
+        top_daily = []
+    try:
+        charts = pytrends.top_charts(2024, hl="en-IN", tz=330, geo=GEO, cid="shopping")
+        top_shop = [item["title"] for item in charts[:20]]
+    except ResponseError:
+        top_shop = []
+    return list(dict.fromkeys(top_daily + top_shop))
 
 def generate_seeds(trend):
     for i in range(3):
