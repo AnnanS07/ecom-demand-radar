@@ -8,6 +8,7 @@ on:
 jobs:
   run:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v3
 
@@ -20,9 +21,9 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Write creds.json from base64
-      	run: |
+        run: |
           echo "${{ secrets.GOOGLE_CREDENTIALS_JSON }}" \
-          | base64 --decode > credentials.json
+            | base64 --decode > credentials.json
 
       - name: Run script
         env:
