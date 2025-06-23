@@ -4,7 +4,7 @@ workflow.py
 Fetches demand signals for seed keywords, writes to Google Sheets,
 and fires webhook alerts for high-momentum terms.
 """
-import os, csv, time, requests
+import os, csv, time, math, requests
 from datetime import datetime
 from pytrends.request import TrendReq
 from bs4 import BeautifulSoup
@@ -81,7 +81,18 @@ def main():
         vel_n = min(vel/500.0, 1.0)
         soc_n = min(soc/1.0, 1.0)
         score = 0.4*spike + 0.3*vel_n + 0.3*soc_n
-        out.append([now, kw, spike, vel, soc, score])
+        def clean(x):
+            return float(x) if math.isfinite(x) else 0.0
+
+        row = [
+            now,
+            kw,
+            clean(spike),
+            clean(velocity),
+            clean(social),
+            clean(demand_score),
+        ]
+        out.append(row)
         if score >= DEMAND_THRESHOLD:
             send_alert(kw, score)
         time.sleep(1)
