@@ -100,8 +100,8 @@ def main():
         out.append(row)
           
 
-        if score >= DEMAND_THRESHOLD:
-            send_alert(kw, score)
+        if demand_score >= DEMAND_THRESHOLD:
+            send_alert(kw, demand_score)
         time.sleep(1)
     append_to_sheet(out)
     print(f"Appended {len(out)} rows.")
