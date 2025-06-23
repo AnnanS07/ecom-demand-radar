@@ -75,15 +75,20 @@ def main():
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     out = []
     for kw in seeds:
-        spike = get_search_spike(kw)
-        vel   = get_amazon_review_velocity(kw)
-        soc   = get_youtube_social_growth(kw)
-        vel_n = min(vel/500.0, 1.0)
-        soc_n = min(soc/1.0, 1.0)
-        score = 0.4*spike + 0.3*vel_n + 0.3*soc_n
+        spike    = get_search_spike(kw)
+        velocity = get_amazon_review_velocity(kw)
+        social   = get_youtube_social_growth(kw)
+
+        
+        vel_n = min(velocity / 500.0, 1.0)
+        soc_n = min(social / 1.0, 1.0)
+        demand_score = 0.4 * spike + 0.3 * vel_n + 0.3 * soc_n
+
+        
         def clean(x):
             return float(x) if math.isfinite(x) else 0.0
 
+        
         row = [
             now,
             kw,
@@ -93,6 +98,8 @@ def main():
             clean(demand_score),
         ]
         out.append(row)
+          
+
         if score >= DEMAND_THRESHOLD:
             send_alert(kw, score)
         time.sleep(1)
