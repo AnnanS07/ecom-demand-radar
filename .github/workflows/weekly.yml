@@ -19,8 +19,10 @@ jobs:
       - name: Install deps
         run: pip install -r requirements.txt
 
-      - name: Write creds.json
-        run: echo "${{ secrets.GOOGLE_CREDENTIALS_JSON }}" > credentials.json
+      - name: Write creds.json from base64
+       	run: |
+   	 echo "${{ secrets.GOOGLE_CREDENTIALS_JSON }}" \
+     	   | base64 --decode > credentials.json
 
       - name: Run script
         env:
