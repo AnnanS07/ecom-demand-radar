@@ -23,7 +23,7 @@ def discover_trends():
     except ResponseError:
         top_daily = []
     try:
-        charts = pytrends.top_charts(2024, hl="en-IN", tz=330, geo=GEO, cid="shopping")
+        charts = pytrends.top_charts(2024, hl="en-IN", tz=330, geo=GEO)
         top_shop = [item["title"] for item in charts[:20]]
     except ResponseError:
         top_shop = []
