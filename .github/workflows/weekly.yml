@@ -1,0 +1,30 @@
+name: Weekly Demand Radar
+
+on:
+  schedule:
+    - cron: "0 2 * * 1"
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install deps
+        run: pip install -r requirements.txt
+
+      - name: Write creds.json
+        run: echo "${{ secrets.GOOGLE_CREDENTIALS_JSON }}" > credentials.json
+
+      - name: Run script
+        env:
+          SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          N8N_WEBHOOK_URL: ${{ secrets.N8N_WEBHOOK_URL }}
+        run: python workflow.py
