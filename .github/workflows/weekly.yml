@@ -21,7 +21,7 @@ jobs:
 
       - name: Write creds.json from base64
       	run: |
-   	 echo "${{ secrets.GOOGLE_CREDENTIALS_JSON }}" \
+          echo "${{ secrets.GOOGLE_CREDENTIALS_JSON }}" \
           | base64 --decode > credentials.json
 
       - name: Run script
